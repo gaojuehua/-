@@ -36,7 +36,7 @@ CREATE TABLE `doctor`  (
   `open` tinyint(1) NULL DEFAULT 1 COMMENT '是否公开',
   `states` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '医生信息' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '医生信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of doctor

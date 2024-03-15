@@ -1,14 +1,21 @@
 <template>
   <div>
-    <div>
+    <div class="fontClass">
       <el-input style="width: 200px" placeholder="查询姓名" v-model="name"></el-input>
       <el-select style="margin: 0 5px" v-model="sort" placeholder="请选择科室">
         <el-option v-for="item in ['儿科', '内科', '牙科','骨科','外科','眼科','肛肠科','皮肤科','耳鼻喉科','妇科']" :key="item" :value="item"
                    :label="item"></el-option>
       </el-select>
-      <el-button type="primary" style="margin-left: 10px" @click="load(1)">查询</el-button>
-      <el-button type="primary" style="margin-left: 10px" @click="scheduleMethod()">排班</el-button>
-      <el-button type="info" @click="reset">重置</el-button>
+      <el-date-picker
+          v-model="schedule"
+          type="date"
+          format="yyyy 年 MM 月 dd 日"
+          value-format="yyyy/MM/dd"
+          placeholder="选择日期">
+      </el-date-picker>
+      <el-button type="success" style="margin-left: 10px" @click="load(1)" icon="el-icon-search">查询</el-button>
+      <el-button type="primary" style="margin-left: 10px" @click="scheduleMethod()" icon="el-icon-edit">排班</el-button>
+      <el-button @click="reset">重置</el-button>
     </div>
 
     <el-table :data="tableData" stripe :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }"
@@ -35,7 +42,7 @@
       <el-table-column prop="phone" label="电话"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
       <el-table-column prop="sort" label="科室"></el-table-column>
-      <el-table-column prop="schedule" label="排班"></el-table-column>
+      <el-table-column prop="schedule" label="排班" width="150"></el-table-column>
       <el-table-column prop="states" label="状态"></el-table-column>
       <el-table-column prop="time" label="入职时间"></el-table-column>
       <el-table-column prop="post" label="职位"></el-table-column>
@@ -60,7 +67,8 @@
             <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"
                             @change="changeWeek"
                             format="yyyy 年 MM 月 dd 日"
-                            value-format="yyyy-MM-dd"
+                            value-format="yyyy/MM/dd"
+                            :picker-options="pickerOptions"
             />
           </el-form-item>
           <el-form-item label="排班时间">
@@ -96,7 +104,12 @@ export default {
       weekTime:"",
       ss1:"",
       formLabelWidth: '150px',
-      defaultValue: ''
+      defaultValue: '',
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
     }
   },
   created() {
@@ -114,6 +127,10 @@ export default {
     },
     load(pageNum) {
       if (pageNum) this.pageNum = pageNum
+      if(this.schedule){
+        let weekTime = this.getDateWeek(this.schedule);
+        this.schedule = this.schedule + "【" + weekTime+"】"
+      }
       this.$request.get('/doctor/selectByPage', {
         params: {
           pageNum: this.pageNum,
@@ -149,7 +166,7 @@ export default {
     savaSchedule(){
       let _this = this;
       this.dialogFormVisible = false;
-      this.SelectionChange.schedule = this.form.date + "-" + this.weekTime
+      this.SelectionChange.schedule = this.form.date + "【" + this.weekTime+"】"
       this.$request({
         url: '/doctor/update',
         method: 'PUT',
@@ -175,5 +192,14 @@ export default {
 </script>
 
 <style scoped>
+.fontClass{
+  margin-bottom:20px;
+  margin-top:5px;
+  padding: 5px;
+  box-shadow:  0.5px 0.5px 0.5px 0.5px ;
+  border: 1px solid rgba(175, 169, 169, 0.62);
+  border-radius: 5px;
+
+}
 
 </style>

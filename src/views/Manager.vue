@@ -2,7 +2,7 @@
   <div>
       <el-container>
           <!--侧边栏-->
-          <el-aside :width="asideWidth" style="min-height: 100vh; background-color:#001529"><!--100vh相当于窗口当前高度-->
+          <el-aside :width="asideWidth" style="min-height: 120vh; background-color:#001529"><!--100vh相当于窗口当前高度-->
             <div style="height: 60px;line-height: 60px;color: aqua;display: flex;align-items: center;justify-content: center">
                 <img src="@/assets/logo1.jpg" style="width: 40px;height: 40px">
                 <span class="logo-title" v-show="!isCollapse">毕业设计</span>
