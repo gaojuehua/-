@@ -58,7 +58,7 @@
       </el-pagination>
     </div>
     <div>
-      <el-dialog title="收货地址" :visible.sync="dialogFormVisible" width="26%">
+      <el-dialog title="排班" :visible.sync="dialogFormVisible" width="26%">
         <el-form ref="form"  label-width="80px">
           <el-form-item label="用户姓名">
             <el-input v-model="form.name" :disabled="true"></el-input>
