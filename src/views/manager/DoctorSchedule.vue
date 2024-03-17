@@ -14,7 +14,7 @@
           placeholder="选择日期">
       </el-date-picker>
       <el-button type="success" style="margin-left: 10px" @click="load(1)" icon="el-icon-search">查询</el-button>
-      <el-button type="primary" style="margin-left: 10px" @click="scheduleMethod()" icon="el-icon-edit">排班</el-button>
+      <el-button type="primary" style="margin-left: 10px" @click="scheduleMethod()" icon="el-icon-edit" v-if="user.role != '用户'">排班</el-button>
       <el-button @click="reset">重置</el-button>
     </div>
 
@@ -90,6 +90,7 @@ export default {
   name: "DoctorSchedule",
   data() {
     return {
+      user:{},
       tableData: [],
       SelectionChange: null,
       pageNum: 1,
@@ -114,6 +115,9 @@ export default {
   },
   created() {
     this.load();
+    debugger;
+    let userJson = localStorage.getItem("honey-user");
+    this.user = JSON.parse(userJson)
   },
   methods: {
     handleCurrentChange(pageNum) {
